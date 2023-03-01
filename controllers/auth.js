@@ -1,7 +1,6 @@
-// import User from "../models/user"
-const User = require("../models/user")
-const { hashSync, genSaltSync, compareSync } = require("bcrypt");
-const jsonwebtoken = require('jsonwebtoken')
+import User from "../models/user.js"
+import { hashSync, genSaltSync, compareSync } from "bcrypt";
+import jsonwebtoken from 'jsonwebtoken'
 export const register = async (req, res) => {
 
     const email = req.body.email
@@ -39,7 +38,4 @@ export const register = async (req, res) => {
     }
 
 }
-
-
-// module.exports
 

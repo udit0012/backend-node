@@ -1,11 +1,12 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import Research from './research';
+import sequelize from './indexModel';
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './database.sqlite'
-});
-const User = sequelize.define('User', {
+class User extends Model{
+    declare email:string;
+    declare password:string;
+}
+User.init({
     email: {
         type: DataTypes.STRING,
         unique: true,
@@ -16,9 +17,13 @@ const User = sequelize.define('User', {
         unique: true,
         allowNull: false
     },
+},{
+    sequelize,
+    modelName:"User"
 });
+
 (async()=>{
-    await Research.sync({force:true})
+    await User.sync({force:true})
 })
 console.log("The table for the User model was just (re)created!");
 

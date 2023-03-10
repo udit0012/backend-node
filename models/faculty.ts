@@ -2,12 +2,11 @@ import { Model, DataTypes, NonAttribute } from 'sequelize';
 
 import Research from './research';
 import sequelize from './indexModel';
+import User from './user';
 
 class Faculty extends Model{
     declare username:string;
     declare FacultyId:number;
-    declare email:string;
-    declare password:string;
     declare phoneNo:number;
     declare department:string;
     declare designation:string;
@@ -21,16 +20,6 @@ Faculty.init({
         type: DataTypes.NUMBER,
         unique: true,
         primaryKey: true
-    },
-    email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.STRING,
-        // unique: true, //password can't be unique 
-        allowNull: false
     },
     phoneNo:{
         type:DataTypes.NUMBER,
@@ -49,6 +38,7 @@ Faculty.init({
     modelName:'Faculty'
 });
 
+Faculty.belongsTo(User,{foreignKey:'email',foreignKeyConstraint:true})
 Faculty.hasMany(Research);
 
 (async()=>{

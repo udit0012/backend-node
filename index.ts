@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import authUserRouter from "./routes/auth.js"
+import authFacultyRouter from "./routes/facultyauth"
+import authStudentRouter from "./routes/studentauth"
 import dotenv from "dotenv"
 
 dotenv.config();
@@ -12,10 +13,11 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
-authUserRouter.use(cookieParser());
+app.use(cookieParser());
 app.use(cors());
 
-app.use('/user', authUserRouter)
+app.use('/faculty', authFacultyRouter)
+app.use('/student', authStudentRouter)
 
 app.listen(PORT, () => {
     console.log(`server is listening  on ${PORT}`);

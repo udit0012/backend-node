@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+import Research from './research';
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
@@ -16,8 +17,9 @@ const User = sequelize.define('User', {
         allowNull: false
     },
 });
-
-await User.sync();
+(async()=>{
+    await Research.sync({force:true})
+})
 console.log("The table for the User model was just (re)created!");
 
 export default User

@@ -1,42 +1,42 @@
 import {
-  Sequelize,
-  Model,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  CreationOptional
+    Sequelize,
+    Model,
+    DataTypes,
+    InferAttributes,
+    InferCreationAttributes,
+    CreationOptional
 } from "sequelize";
 
 const sequelize: Sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "./database.sqlite",
+    dialect: "sqlite",
+    storage: "./database.sqlite",
 });
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  declare email: string;
-  declare password: string;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+    declare email: string;
+    declare password: string;
+    declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
 }
 User.init(
-  {
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
+    {
+        email: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
+        },
+        password: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
+        },
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE,
     },
-    password: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-  },
-  {
-    sequelize,
-    tableName: "User",
-  }
+    {
+        sequelize,
+        tableName: "User",
+    }
 );
 
 User.sync();

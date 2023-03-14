@@ -15,7 +15,7 @@ export const register = async (req: Request, res: Response) => {
         res.status(400).json({ "error": "Password can not be empty" })
     }
 
-    let user = await User.findOne({
+    let user: User | null = await User.findOne({
         where: {
             email: email
         }
@@ -49,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
         res.status(400).json({ "error": "Password can not be empty" })
     }
 
-    let user = await User.findOne({
+    let user: User | null = await User.findOne({
         where: {
             email: email
         }
@@ -58,5 +58,18 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
         res.status(400).json({ "error": "Invalid email or password" })
         return
+    }
+
+    const isValidPassword: boolean = compareSync(password, user.password)
+    if(isValidPassword) {
+        user.password = "";
+        const jsontoken: string = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
+        const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
+        res.cookie('token', jsontoken, cookieOptions);
+        res.status(200)
+        res.json({ token: jsontoken, email: email });
+    }
+    else {
+        return res.json({"error": "Invalid email or password"});
     }
 }

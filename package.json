@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "backend for erp",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",

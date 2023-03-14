@@ -1,6 +1,6 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 
-const sequelize = new Sequelize({
+const sequelize: Sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database.sqlite'
 });
@@ -17,7 +17,7 @@ const User = sequelize.define('User', {
     },
 });
 
-await User.sync();
+User.sync();
 console.log("The table for the User model was just (re)created!");
 
 export default User

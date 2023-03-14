@@ -4,8 +4,8 @@ import { hashSync, genSaltSync, compareSync } from "bcrypt";
 import jsonwebtoken from 'jsonwebtoken'
 export const register = async (req: Request, res: Response) => {
 
-    const email: string = req.body.email
-    let password: string = req.body.password
+    const email = req.body.email
+    let password = req.body.password
 
     if (!email) {
         res.status(400).json({ "error": "Email can not be empty" })
@@ -39,8 +39,8 @@ export const register = async (req: Request, res: Response) => {
 }
 
 export const login = async (req: Request, res: Response) => {
-    const email: string = req.body.email
-    let password: string = req.body.password
+    const email = req.body.email
+    let password = req.body.password
     if (!email) {
         res.status(400).json({ "error": "Email can not be empty" })
     }

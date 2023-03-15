@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize({
+const sequelize: Sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database.sqlite'
 });

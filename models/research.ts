@@ -5,6 +5,12 @@ import sequelize from "./indexModel";
 class Research extends Model{
     declare ResearchId:number;
     declare FacultyRef:number;
+    declare Topic:string;
+    declare SubTopic:string;
+    declare PublishedID:string;
+    declare PublishedDate:string;
+    declare PublisherName:string;
+    declare ResearchLink:string;
 }
 
 Research.init({
@@ -18,6 +24,30 @@ Research.init({
         model:'Faculty',
         key:'FacultyId'
       }
+    },
+    Topic:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    SubTopic:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    PublishedID:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique:true
+    },
+    PublishedDate:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    PublisherName:{
+      type:DataTypes.STRING,
+      allowNull:false,
+    },
+    ResearchLink:{
+      type:DataTypes.STRING,
     }
   }, {
     sequelize,

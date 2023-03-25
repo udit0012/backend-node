@@ -1,34 +1,44 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
-import Research from './research';
-import sequelize from './indexModel';
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional
+} from "sequelize";
+import sequelize from "./indexModel"
 
-class User extends Model{
-    declare email:string;
-    declare password:string;
+
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare email: string;
+  declare password: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
-User.init({
+User.init(
+  {
     email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
     },
     password: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
     },
-},{
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+  },
+  {
     sequelize,
-    modelName:"User"
-});
+    tableName: "User",
+  }
+);
 
-(async()=>{
-    await User.sync({force:true})
-})
+User.sync();
 console.log("The table for the User model was just (re)created!");
 
-export default User
-
+export default User;
 
 //username
 //email

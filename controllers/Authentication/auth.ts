@@ -1,6 +1,6 @@
 import { Request, Response, CookieOptions } from "express";
 import User from "../../models/user";
-import { hashSync, genSaltSync, compareSync, compare } from "bcrypt";
+import { hashSync, genSaltSync, compareSync } from "bcrypt";
 import jsonwebtoken from 'jsonwebtoken'
 export const register = async (req: Request, res: Response) => {
 
@@ -20,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
     try {
         let hashedPassword = hashSync(password, 10);
         user = await User.create({
-            email:email, 
+            email:email,
             password:hashedPassword,
         })
         const data = {
@@ -39,10 +39,10 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const email = req.body.email
-        let password = req.body.password
+        const email: string = req.body.email
+        let password: string = req.body.password
 
-        let user = await User.findOne({
+        let user: User | null = await User.findOne({
             where: {
                 email: email
             }
@@ -51,9 +51,9 @@ export const login = async (req: Request, res: Response) => {
             res.status(400).json({ "error": "User not found" })
             return
         }
-        let passCompare = await compare(password, user.password);
-        if(!passCompare){
-            return res.status(400).json({error:"Password Incorrect"})
+        let isValidPassword: boolean = compareSync(password, user.password);
+        if(!isValidPassword){
+            return res.status(400).json({error:"Invalid credentials"})
         }
         const data = {
             user:user
@@ -66,9 +66,9 @@ export const login = async (req: Request, res: Response) => {
 
     } catch (error) {
         res.status(400).json({error:"Internal Server Error"})
-        console.log(error); 
+        console.log(error);
     }
-    
+
 }
 
 
@@ -80,7 +80,7 @@ export const logout = async(req:Request,res:Response)=>{
 }
 export const refresh = async(req:Request,res:Response)=>{
     // token refresh code
-    
+
     // return res
     //   .clearCookie("token")
     //   .status(200)

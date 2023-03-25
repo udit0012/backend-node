@@ -1,9 +1,9 @@
 import express from 'express';
 import { addResearch, getAllResearch,searchResearch } from '../controllers/FacultyResearch/facultyResearch';
-
+import * as auth
 const router = express.Router();
 router.post('/addResearch', addResearch)
-router.post('/getAllResearch', getAllResearch)
-router.post('/searchResearch', searchResearch)
+router.get('/getAllResearch', getAllResearch)
+router.get('/searchResearch', searchResearch)
 
 export default router

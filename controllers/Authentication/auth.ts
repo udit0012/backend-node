@@ -23,7 +23,10 @@ export const register = async (req: Request, res: Response) => {
             email:email, 
             password:hashedPassword,
         })
-        const jsontoken = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
+        const data = {
+            user:user
+        }
+        const jsontoken = jsonwebtoken.sign(data, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
         const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
         res.cookie('token', jsontoken, cookieOptions);
         res.status(200)
@@ -52,8 +55,10 @@ export const login = async (req: Request, res: Response) => {
         if(!passCompare){
             return res.status(400).json({error:"Password Incorrect"})
         }
-
-        const jsontoken = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
+        const data = {
+            user:user
+        }
+        const jsontoken = jsonwebtoken.sign(data, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
         const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
         res.cookie('token', jsontoken, cookieOptions);
         res.status(200)

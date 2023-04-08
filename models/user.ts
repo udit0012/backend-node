@@ -1,16 +1,11 @@
 import {
-    Sequelize,
     Model,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
     CreationOptional
 } from "sequelize";
-
-const sequelize: Sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.sqlite",
-});
+import sequelize from "./indexModel"
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare email: string;

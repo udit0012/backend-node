@@ -61,7 +61,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const isValidPassword: boolean = compareSync(password, user.password)
-    if(isValidPassword) {
+    if (isValidPassword) {
         user.password = "";
         const jsontoken: string = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
         const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
@@ -70,6 +70,6 @@ export const login = async (req: Request, res: Response) => {
         res.json({ token: jsontoken, email: email });
     }
     else {
-        return res.json({"error": "Invalid email or password"});
+        return res.json({ "error": "Invalid email or password" });
     }
 }

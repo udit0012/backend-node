@@ -7,18 +7,20 @@ import {
     CreationOptional
 } from "sequelize";
 
-import InventoryRemarks from "./inventoryRemarks";
+// import InventoryRemarks from "./inventoryRemarks";
 
-const sequelize: Sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.sqlite",
-});
+import sequelize from "./indexModel"
 
 class Inventory extends Model<InferAttributes<Inventory>, InferCreationAttributes<Inventory>> {
     declare name: string;
+    declare brand: string;
     declare quantity: number;
-    declare damaged: string;
-    declare inventoryId: number;
+    // declare costPerItem: CreationOptional<number>;
+    // declare damaged: CreationOptional<string>;
+    declare price: CreationOptional<number>;
+    // declare remark: CreationOptional<string>;
+    declare category: CreationOptional<string>;
+    // declare inventoryId: CreationOptional<number>;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 }
@@ -26,24 +28,36 @@ Inventory.init(
     {
         name: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false,
         },
-        inventoryId: {
+        // remark: {
+        //     type: DataTypes.STRING,
+        //     allowNull: true,
+        // },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        brand: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        // costPerItem: {
+        //     type: DataTypes.NUMBER,
+        //     allowNull: true,
+        // },
+        price: {
             type: DataTypes.NUMBER,
-            unique: true,
-            primaryKey: true
+            allowNull: true,
         },
         quantity: {
             type: DataTypes.NUMBER,
-            unique: true,
-            allowNull: false,
+            allowNull: true,
         },
-        damaged: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
-        },
+        // damaged: {
+        //     type: DataTypes.STRING,
+        //     allowNull: true,
+        // }
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
     },
@@ -53,10 +67,10 @@ Inventory.init(
     }
 );
 
-Inventory.hasMany(InventoryRemarks)
+// Inventory.hasMany(InventoryRemarks)
 
 Inventory.sync();
-console.log("The table for the User model was just (re)created!");
+console.log("The table for the Inventory model was just (re)created!");
 
 export default Inventory;
 

@@ -56,7 +56,34 @@ export const getAllItems = async (req: Request, res: Response) => {
     }
 
 }
-
 export const deleteItem = async (req: Request, res: Response) => {
+    try {
+        const { name, brand } = req.body
+        if (!name || !brand) {
+            return res.status(200).json({
+                status: "fail",
+                data: null,
+                error: "One or more mandatory field is missing"
+            })
+        }
+        let items = await Inventory.destroy({
+            where: {
+                name, brand
+            }
+        })
+        return res.status(200).json({
+            status: "pass",
+            data: items,
+            error: null
+        })
+    } catch (e) {
+        console.log(e)
+        return res.status(409).json({
+            status: "fail",
+            data: null,
+            error: e
+        })
+    }
 
 }
+

@@ -15,8 +15,8 @@ class Inventory extends Model<InferAttributes<Inventory>, InferCreationAttribute
     declare name: string;
     declare brand: string;
     declare quantity: number;
-    // declare costPerItem: CreationOptional<number>;
-    // declare damaged: CreationOptional<string>;
+    declare costPerItem: CreationOptional<number>;
+    // declare damagedCreationOptional<string>;
     declare price: CreationOptional<number>;
     // declare remark: CreationOptional<string>;
     declare category: CreationOptional<string>;
@@ -47,6 +47,10 @@ Inventory.init(
         //     allowNull: true,
         // },
         price: {
+            type: DataTypes.NUMBER,
+            allowNull: true,
+        },
+        costPerItem: {
             type: DataTypes.NUMBER,
             allowNull: true,
         },

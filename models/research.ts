@@ -14,39 +14,39 @@ class Research extends Model{
 }
 
 Research.init({
-    ResearchId: {
+    researchId: {
       type: DataTypes.NUMBER,
       autoIncrement: true
     },
-    FacultyRef: {
-      type: DataTypes.NUMBER,
-      references:{
-        model:'Faculty',
-        key:'FacultyId'
-      }
-    },
-    Topic:{
+    // FacultyRef: {
+    //   type: DataTypes.NUMBER,
+    //   references:{
+    //     model:'Faculty',
+    //     key:'FacultyId'
+    //   }
+    // },
+    topic:{
       type:DataTypes.STRING,
       allowNull:false,
     },
-    SubTopic:{
+    subTopic:{
       type:DataTypes.STRING,
       allowNull:false,
     },
-    PublishedID:{
+    publishedID:{
       type:DataTypes.STRING,
       allowNull:false,
       unique:true
     },
-    PublishedDate:{
+    publishedDate:{
       type:DataTypes.STRING,
       allowNull:false,
     },
-    PublisherName:{
+    publisherName:{
       type:DataTypes.STRING,
       allowNull:false,
     },
-    ResearchLink:{
+    researchLink:{
       type:DataTypes.STRING,
     }
   }, {
@@ -56,9 +56,7 @@ Research.init({
 
 Research.belongsTo(Faculty,{foreignKey:'FacultyId',foreignKeyConstraint:true});
 
-(async()=>{
-    await Research.sync({force:true});
-})
+Research.sync({force:true});
 console.log("The table for the Research model was just (re)created!");
 
 export default Research

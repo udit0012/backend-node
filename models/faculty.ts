@@ -6,18 +6,17 @@ import User from './user';
 import Student from "./student"
 
 class Faculty extends Model{
-    declare username:string;
-    declare FacultyId:number;
+    declare facultyId:number;
     declare phoneNo:number;
     declare department:string;
     declare designation:string;
 }
 Faculty.init({
-    username:{
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    FacultyId:{
+    // username:{
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // },
+    facultyCode:{
         type: DataTypes.NUMBER,
         unique: true,
         primaryKey: true
@@ -39,13 +38,11 @@ Faculty.init({
     modelName:'Faculty'
 });
 
-Faculty.belongsTo(User,{foreignKey:'FacultyId',foreignKeyConstraint:true})
+Faculty.belongsTo(User,{foreignKey:'facultyCode',foreignKeyConstraint:true})
 Faculty.hasMany(Research);
 Faculty.hasMany(Student);
 
-(async()=>{
-    await Faculty.sync({force:true});
-})
+Faculty.sync({force:true});
 console.log("The table for the Faculty model was just (re)created!");
 
 export default Faculty

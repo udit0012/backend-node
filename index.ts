@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 // import authUserRouter from "./routes/auth.js"
 import inventoryRoutes from "./routes/inventory.js"
 import studentRouter from "./routes/student"
+import studentLeaveRouter from "./routes/studentLeave"
 import dotenv from "dotenv"
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(cors());
 // app.use('/user', authUserRouter)
 app.use('/inventory', inventoryRoutes)
 app.use('/student', studentRouter)
+app.use('/studentLeave', studentLeaveRouter)
 
 app.listen(PORT, () => {
     console.log(`server is listening  on ${PORT}`);

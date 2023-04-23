@@ -3,6 +3,7 @@ import { Model, DataTypes, NonAttribute } from 'sequelize';
 import Research from './research';
 import sequelize from './indexModel';
 import User from './user';
+import Student from "./student"
 
 class Faculty extends Model{
     declare username:string;
@@ -38,8 +39,9 @@ Faculty.init({
     modelName:'Faculty'
 });
 
-Faculty.belongsTo(User,{foreignKey:'email',foreignKeyConstraint:true})
+Faculty.belongsTo(User,{foreignKey:'FacultyId',foreignKeyConstraint:true})
 Faculty.hasMany(Research);
+Faculty.hasMany(Student);
 
 (async()=>{
     await Faculty.sync({force:true});

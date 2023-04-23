@@ -24,13 +24,13 @@ export const addItem = async (req: Request, res: Response) => {
         let item = await Inventory.create({
             name, brand, quantity, price, category
         })
-        if (!name || !brand || !quantity || !price || !category) {
+        // if (!name || !brand || !quantity || !price || !category) {
             return res.status(200).json({
                 status: "pass",
                 data: item,
                 error: null
             })
-        }
+        // }
     } catch (e) {
         return res.status(409).json({
             status: "fail",

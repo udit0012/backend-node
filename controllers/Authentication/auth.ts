@@ -1,85 +1,111 @@
-import { Request, Response, CookieOptions } from "express";
-import User from "../../models/user";
-import { hashSync, genSaltSync, compareSync } from "bcrypt";
-import jsonwebtoken from 'jsonwebtoken'
-// export const register = async (req: Request, res: Response) => {
-//
-//     const email: string = req.body.email
-//     let password: string = req.body.password
-//
-//     let user = await User.findOne({
-//         where: {
-//             email: email
-//         }
-//     })
-//
-//     if (user) {
-//         res.status(409).json({ "error": "User already registered" })
-//         return
-//     }
-//     try {
-//         const salt = genSaltSync(10)
-//         let hashedPassword = hashSync(password, salt);
-//         user = await User.create({
-//             email: email,
-//             password: hashedPassword,
-//         })
-//         const jsontoken = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
-//         const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
-//         res.cookie('token', jsontoken, cookieOptions);
-//         res.status(200)
-//         res.json({ token: jsontoken, email: email });
-//     } catch (e) {
-//         res.status(400).json({ error: "Internal Server Error" })
-//         console.log(e)
-//     }
-// }
+import { Request, Response } from "express";
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import User from '../../models/user'
+import Faculty from "../../models/faculty";
+import { validationResult } from "express-validator";
 
-export const login = async (req: Request, res: Response) => {
+
+export const userRegister=async(req:Request, res:Response):Promise<Response>=>{
+    const {name,email,role,password,phoneNo,dob,address,gender} = req.body
+    // const cpassword:string = req.body.cpassword
+
     try {
-        const email: string = req.body.email
-        let password: string = req.body.password
+        const err = validationResult(req)
+        if(!err.isEmpty()){
+            return res.status(400).json({success:false,errorType:"array",error:err.array()})
+        }
+        let user = await User.findOne({
+            where:{email:req.body.email}
+        });
+        if(user){
+            return res.status(400).json({success:false,errorType:"msg",error:"User already exists. Please Login"})
+        }
+        // if(password!==cpassword){
+        //     return res.status(400).json({success:false,errorType:"msg",error:"Password did not match"})
+        // }
+        const haspass = bcrypt.hashSync(password,10);
+        user = await User.create({
+            name,
+            email,
+            password:haspass,
+            role,
+            phoneNo,
+            dob,
+            address,
+            gender
+        })
+        const data = {
+            user:{id:user.id,role,email}
+        }
+        const token = jwt.sign(data,"supersecretkey")
+        return res.json({success:true,token})
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({success:false,errorType:"msg",error:"Internal Server Error"})
+    }
+    
+}
+export const userLogin=async(req:Request, res:Response):Promise<Response>=>{
+    const email:string = req.body.email
+    const password:string = req.body.password
 
-        let user: User | null = await User.findOne({
-            where: {
-                email: email
+    try {
+        const err = validationResult(req)
+        if(!err.isEmpty()){
+            return res.status(400).json({success:false,errors:err.array()})
+        }
+        const user = await User.findOne({
+            where:{
+                email:req.body.email
             }
         })
-        if (!user) {
-            res.status(400).json({ "error": "User not found" })
-            return
+        if(!user){
+            return res.status(401).json({success:false,error:"Invalid credentials"});
         }
-        let isValidPassword: boolean = compareSync(password, user.password);
-        if (!isValidPassword) {
-            return res.status(400).json({ error: "Invalid credentials" })
+        // console.log(user);
+        
+        
+        const passCheck = await bcrypt.compare(password,user.dataValues.password)
+        if(!passCheck){
+            return res.status(401).json({success:false,error:"Invalid credentials"});
         }
-        user.password = ""
-
-        const jsontoken = jsonwebtoken.sign({ user: user }, process.env.SECRET_KEY || "supersecret", { expiresIn: '30m' });
-        const cookieOptions: CookieOptions = { httpOnly: true, secure: true, sameSite: 'strict', expires: new Date(Number(new Date()) + 30 * 60 * 1000) } //we add secure: true, when using https.
-        res.cookie('token', jsontoken, cookieOptions);
-        res.status(200)
-        res.json({ token: jsontoken, email: email });
-
+        const faculty = await Faculty.findOne({
+            where:{
+                userId:user.dataValues.id
+            }
+        })
+        const data = {
+            user:{id:user.dataValues.id,email,faculty}
+        }
+        const token = jwt.sign(data,"supersecretkey")
+        return res.json({success:true,token})
     } catch (error) {
-        res.status(400).json({ error: "Internal Server Error" })
+        return res.status(500).json({success:false,error:"Internal Server Error"})
+    }
+    
+}
+
+
+export const getUser = async (req:Request, res:Response) => {
+
+    try {
+        let userid = res.locals.user.id
+        const user = await User.findOne({
+            where:{
+                id:userid,
+            },
+            attributes:{exclude:["password"]}
+        })
+        if(!user){
+            return res.status(401).json({success:false,error:"User not found"});
+        }
+        return res.json({success:true,user})
+    } catch (error) {
         console.log(error);
+        
+        res.status(500).json({ error: 'Internal server error' })
     }
 
-}
-
-
-export const logout = async (req: Request, res: Response) => {
-    return res
-        .clearCookie("token")
-        .status(200)
-        .json({ message: "Successfully logged out" });
-}
-export const refresh = async (req: Request, res: Response) => {
-    // token refresh code
-
-    // return res
-    //   .clearCookie("token")
-    //   .status(200)
-    //   .json({ message: "Successfully logged out" });
 }

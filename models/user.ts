@@ -4,10 +4,12 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
+  Sequelize,
 } from "sequelize";
 import sequelize from "./indexModel";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id:CreationOptional<string>;
   declare email: string;
   declare password: string;
   declare role: string;
@@ -15,11 +17,18 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare phoneNo: string;
   declare dob: Date;
   declare address: string;
+  declare gender: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
 User.init(
   {
+    id: {
+      type:DataTypes.UUID,
+      autoIncrement: true,
+      primaryKey:true,
+      defaultValue: DataTypes.UUIDV4,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -48,6 +57,10 @@ User.init(
     address: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    gender:{
+      type:DataTypes.STRING,
+      allowNull:false
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

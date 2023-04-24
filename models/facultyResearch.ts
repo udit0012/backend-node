@@ -37,10 +37,7 @@ Research.init(
       type: DataTypes.STRING,
     },
   },
-  {
-    sequelize,
-    modelName: "Research",
-  }
+  { sequelize }
 );
 
 export default Research;

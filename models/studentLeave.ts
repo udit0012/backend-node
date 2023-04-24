@@ -3,7 +3,6 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "./indexModel";
 
 class StudentLeave extends Model {
-  declare studentId: number;
   declare startDate: Date;
   declare endDate: Date;
   declare workingDays: number;
@@ -16,10 +15,6 @@ class StudentLeave extends Model {
 }
 StudentLeave.init(
   {
-    studentId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     startDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -47,8 +42,8 @@ StudentLeave.init(
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: "Faculty",
-        key: "FacultyId",
+        model: "Faculties",
+        key: "facultyId",
       },
     },
     // status: {

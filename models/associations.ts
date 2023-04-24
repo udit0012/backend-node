@@ -9,7 +9,7 @@ User.hasOne(Student)
 Student.belongsTo(User)
 
 User.hasOne(Faculty)
-Student.belongsTo(User)
+Faculty.belongsTo(User)
 
 Student.hasMany(StudentLeave)
 StudentLeave.belongsTo(Student)

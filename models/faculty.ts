@@ -4,20 +4,16 @@ import sequelize from "./indexModel";
 
 class Faculty extends Model {
   declare facultyId: number;
-  declare phoneNo: number;
   declare department: string;
   declare designation: string;
+  declare qualification: string;
 }
 Faculty.init(
   {
-    facultyId: {
+    id: {
       type: DataTypes.STRING,
       unique: true,
       primaryKey: true,
-    },
-    phoneNo: {
-      type: DataTypes.NUMBER,
-      allowNull: false,
     },
     department: {
       type: DataTypes.STRING,
@@ -27,11 +23,12 @@ Faculty.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    qualification: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  {
-    sequelize,
-    modelName: "Faculty",
-  }
+  { sequelize }
 );
 
 export default Faculty;

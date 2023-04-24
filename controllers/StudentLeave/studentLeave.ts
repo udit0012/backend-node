@@ -8,7 +8,8 @@ import { Request, Response, CookieOptions } from "express";
 import StudentLeave from "../../models/studentLeave";
 // import authentication from "../../middleware/authentication";
 const applyLeave = async (req: Request, res: Response) => {
-  const { studentId, startDate, endDate, workingDays, reason, placeOfStay } =
+    const studentId = req.body.id
+  const { startDate, endDate, workingDays, reason, placeOfStay } =
     req.body;
   // const status = req.body.status
   const { advisorApproval, wardenApproval } = req.body;
@@ -16,7 +17,7 @@ const applyLeave = async (req: Request, res: Response) => {
   let file = req.file;
   let student = await Student.findOne({
     // where: { email: res.locals.user.email }
-    where: { studentId },
+    where: { id: studentId },
   });
   if (!student) {
     // return res.status(400).json({ success: false, error: "Login First" })
@@ -28,7 +29,7 @@ const applyLeave = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, errors: err.array() });
     }
     let leave = await StudentLeave.create({
-      studentId,
+      id: studentId,
       startDate,
       endDate,
       workingDays,
@@ -55,7 +56,7 @@ const getStudentLeaves = async (req: Request, res: Response) => {
   let studentId = req.params.studentId;
   let student = await Student.findOne({
     // where: { email: res.locals.user.email },
-    where: { studentId },
+    where: { id: studentId },
   });
   if (!student) {
     return res.status(404).json({ msg: "student not found" });
@@ -65,7 +66,7 @@ const getStudentLeaves = async (req: Request, res: Response) => {
   }
   try {
     const leave = await StudentLeave.findAll({
-      where: { studentId },
+      where: { id: studentId },
     });
     res.status(200).json(leave);
   } catch (error) {
@@ -89,7 +90,7 @@ const getAdviseesLeaves = async (req: Request, res: Response) => {
   try {
     const leave = await StudentLeave.findAll({
       where: {
-        facultyId: advisorCode,
+        advisorCode: advisorCode,
       },
     });
     // if(!leaves){

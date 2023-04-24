@@ -6,8 +6,6 @@ import {
   CreationOptional,
 } from "sequelize";
 import sequelize from "./indexModel";
-import Student from "./student";
-import Faculty from "./faculty";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare email: string;
@@ -29,7 +27,6 @@ User.init(
     },
     password: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
     },
     role: {
@@ -55,10 +52,7 @@ User.init(
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
-  {
-    sequelize,
-    tableName: "User",
-  }
+  { sequelize }
 );
 
 export default User;

@@ -1,10 +1,8 @@
-import { Model, DataTypes, NonAttribute } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "./indexModel";
-import User from "./user"
-import Faculty from "./faculty"
 
 class Student extends Model {
-  declare studentId: number;
+  declare id: number;
   declare degree: string;
   declare discipline: string;
   declare fatherName: string;
@@ -19,7 +17,7 @@ class Student extends Model {
 
 Student.init(
   {
-    studentId: {
+    id: {
       type: DataTypes.INTEGER,
       unique: true,
       allowNull: false,
@@ -64,10 +62,7 @@ Student.init(
       allowNull: false,
     },
   },
-  {
-    sequelize,
-    modelName: "Student",
-  }
+  { sequelize }
 );
 
 export default Student;

@@ -1,8 +1,9 @@
 import express from 'express';
-import { getStudent, updateStudent } from '../controllers/Student/student';
+import { getStudent, updateStudent, getAdvisees } from '../controllers/Student/student';
 
 const router = express.Router();
-router.get('/get', getStudent);
+router.get('/get/:studentId', getStudent);
 router.patch('/update', updateStudent);
+router.get('/getAdvisees/:advisorCode', getAdvisees)
 
 export default router

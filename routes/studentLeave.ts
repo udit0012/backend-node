@@ -9,7 +9,7 @@ import {
     wardenApproval,
     advisorRejection,
     wardenRejection
-} from '../controllers/StudentLeave/applyLeave';
+} from '../controllers/StudentLeave/studentLeave';
 
 const router = express.Router();
 const upload = multer({ dest: "./uploads/" });

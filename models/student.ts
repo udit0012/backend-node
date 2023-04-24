@@ -70,10 +70,4 @@ Student.init(
   }
 );
 
-// Research.belongsTo(Faculty,{foreignKey:'FacultyId',foreignKeyConstraint:true});
-Student.belongsTo(User, { foreignKey: 'studentId'})
-
-Student.sync();
-console.log("The table for the Student model was just (re)created!");
-
 export default Student;

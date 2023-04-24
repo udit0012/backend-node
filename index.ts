@@ -4,9 +4,12 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 // import cookieParser from "cookie-parser";
 // import authUserRouter from "./routes/auth.js"
+import "./models/associations"
 import inventoryRoutes from "./routes/inventory.js"
 import studentRouter from "./routes/student"
 import studentLeaveRouter from "./routes/studentLeave"
+import facultyResearchRouter from "./routes/facultyResearch"
+import facultyRouter from "./routes/faculty"
 import dotenv from "dotenv"
 
 dotenv.config();
@@ -23,6 +26,8 @@ app.use(cors());
 app.use('/inventory', inventoryRoutes)
 app.use('/student', studentRouter)
 app.use('/studentLeave', studentLeaveRouter)
+app.use('/facultyResearch', facultyResearchRouter)
+app.use('/faculty', facultyRouter)
 
 app.listen(PORT, () => {
     console.log(`server is listening  on ${PORT}`);

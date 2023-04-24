@@ -1,9 +1,6 @@
-import { Model, DataTypes, NonAttribute } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
 import sequelize from './indexModel';
-// import User from './user';
-// import Student from './student';
-// import Advisor from './advisor';
 
 class FacultyLeave extends Model{
     declare studentId:number;
@@ -54,14 +51,7 @@ FacultyLeave.init({
     }
 },  {
         sequelize,
-        modelName: "StudentLeave"
+        modelName: "FacultyLeave"
     });
-
-// Leave.belongsTo(Student,{foreignKey:'collegeId',foreignKeyConstraint:true});
-// Leave.belongsTo(Advisor,{foreignKey:'advisorcode',foreignKeyConstraint:true});
-// Advisor.hasMany(Student);
-
-FacultyLeave.sync()
-console.log("Leave table (re)created");
 
 export default FacultyLeave;

@@ -5,37 +5,53 @@ import Student from "../../models/student";
 export const addStudent = async (req: Request, res: Response) => {
   let student = await Student.findOne({
     where: {
-      studentId: req.body.studentId
-    }
-  })
+      studentId: req.body.studentId,
+    },
+  });
   if (student) {
-    return res.status(409).json({ msg: "student already exists" })
+    return res
+      .status(409)
+      .json({ msg: "student already exists", data: null, error: null });
   }
-  student = await Student.create(req.body)
-  res.status(200).json(student)
-}
+  student = await Student.create(req.body);
+  return res.status(200).json({
+    msg: "student successfully created",
+    data: student,
+    error: null,
+  });
+};
 
 export const getStudent = async (req: Request, res: Response) => {
   const studentId: string = req.params.studentId;
-
   let student = await Student.findOne({
     where: { studentId },
   });
-
-  if (student) {
-    res.status(200).json(student);
+  if (!student) {
+    return res.status(404).json({
+      msg: "student not found",
+      data: null,
+      error: null,
+    });
   }
+  return res.status(200).json({
+    msg: "success",
+    data: student,
+    error: null,
+  });
 };
 
 export const updateStudent = async (req: Request, res: Response) => {
-  // const { studentId, degree, discipline, fatherName, motherName, parentPhone, parentEmail} = req.body
-  const student = req.body;
+  let student = req.body;
   const studentId = student.studentId;
   delete student["studentId"];
-  await Student.update(student, {
+  student = await Student.update(student, {
     where: { studentId },
   });
-  res.status(200).json({ msg: "succesfully updated " });
+  return res.status(200).json({
+    msg: "succesfully updated",
+    data: student,
+    error: null,
+  });
 };
 
 export const getAdvisees = async (req: Request, res: Response) => {
@@ -45,5 +61,9 @@ export const getAdvisees = async (req: Request, res: Response) => {
       advisorCode,
     },
   });
-  res.status(200).json(students);
+  return res.status(200).json({
+    msg: "success",
+    data: students,
+    error: null
+  });
 };

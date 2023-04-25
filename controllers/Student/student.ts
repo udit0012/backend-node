@@ -1,26 +1,28 @@
-import { Request, Response, CookieOptions } from "express";
+import { Request, Response } from "express";
 import Student from "../../models/student";
 import User from "../../models/user";
 // import { hashSync, genSaltSync, compareSync } from "bcrypt";
 
-// export const addStudent = async (req: Request, res: Response) => {
-//   let student = await Student.findOne({
-//     where: {
-//       id: req.body.studentId,
-//     },
-//   });
-//   if (student) {
-//     return res
-//       .status(409)
-//       .json({ msg: "student already exists", data: null, error: null });
-//   }
-//   student = await Student.create(req.body);
-//   return res.status(200).json({
-//     msg: "student successfully created",
-//     data: student,
-//     error: null,
-//   });
-// };
+export const addStudent = async (req: Request, res: Response) => {
+  let student = await Student.findOne({
+    where: {
+      email: res.locals.user.email,
+    },
+  });
+  if (student) {
+    return res.status(500).json({
+      msg: "failure",
+      data: null,
+      error: "student already exists",
+    });
+  }
+  student = await Student.create({...req.body, userId: res.locals.user.id});
+  return res.status(200).json({
+    msg: "student successfully created",
+    data: student,
+    error: null,
+  });
+};
 
 export const getStudent = async (req: Request, res: Response) => {
   const studentId: string = req.params.studentId;
@@ -45,8 +47,8 @@ export const getStudent = async (req: Request, res: Response) => {
     return res.status(500).json({
       msg: "failure",
       data: null,
-      error: e
-    })
+      error: e,
+    });
   }
 };
 
@@ -76,13 +78,13 @@ export const getAdvisees = async (req: Request, res: Response) => {
     return res.status(200).json({
       msg: "success",
       data: students,
-      error: null
+      error: null,
     });
   } catch (e) {
     return res.status(200).json({
       msg: "failure",
       data: null,
-      error: e
+      error: e,
     });
   }
 };

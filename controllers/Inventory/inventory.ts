@@ -1,7 +1,5 @@
-import { Request, Response, CookieOptions } from "express";
+import { Request, Response } from "express";
 import Inventory from "../../models/inventory";
-import { hashSync, genSaltSync, compareSync } from "bcrypt";
-import jsonwebtoken from 'jsonwebtoken'
 
 export const addItem = async (req: Request, res: Response) => {
     try {

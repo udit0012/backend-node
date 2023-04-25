@@ -1,4 +1,4 @@
-import { Request, Response, CookieOptions } from "express";
+import { Request, Response } from "express";
 import Research from "../../models/facultyResearch";
 
 export const addResearch = async (req: Request, res: Response) => {

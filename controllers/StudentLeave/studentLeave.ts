@@ -4,7 +4,7 @@ import User from "../../models/user";
 // import bcrypt from "bcrypt"
 // import jwt from "jsonwebtoken"
 import { validationResult } from "express-validator";
-import { Request, Response, CookieOptions } from "express";
+import { Request, Response } from "express";
 import StudentLeave from "../../models/studentLeave";
 // import authentication from "../../middleware/authentication";
 const applyLeave = async (req: Request, res: Response) => {

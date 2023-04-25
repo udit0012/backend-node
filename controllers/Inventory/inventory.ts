@@ -56,6 +56,28 @@ export const getAllItems = async (req: Request, res: Response) => {
     }
 
 }
+
+export const getItem = async (req: Request, res: Response) => {
+    try {
+        const itemId = req.params.itemId
+        const item = await Inventory.findOne({
+            where: {
+                id: itemId
+            }
+        })
+        return res.status(200).json({
+            status: "pass",
+            data: item,
+            error: null
+        })
+    } catch (e) {
+        return res.status(409).json({
+            status: "pass",
+            data: null,
+            error: e
+        })
+    }
+}
 export const deleteItem = async (req: Request, res: Response) => {
     try {
         const { name, brand } = req.body

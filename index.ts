@@ -2,7 +2,7 @@ import express from 'express';
 import { Express } from 'express';
 import cors from 'cors';
 import bodyParser from "body-parser";
-// import authUserRouter from "./routes/auth.js"
+import authUserRouter from "./routes/auth.js"
 import "./models/associations"
 import inventoryRoutes from "./routes/inventory.js"
 import studentRouter from "./routes/student"
@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(cors());
 
-// app.use('/user', authUserRouter)
+app.use('/user', authUserRouter)
 app.use('/inventory', inventoryRoutes)
 app.use('/student', studentRouter)
 app.use('/studentLeave', studentLeaveRouter)

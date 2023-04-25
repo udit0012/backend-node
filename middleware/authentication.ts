@@ -7,6 +7,8 @@ const authentication = async(req:Request, res:Response,next:NextFunction)=>{
     }
     try {
         const data = jwt.verify(token,"supersecretkey");
+        console.log(data);
+        
         res.locals.user = data
         res.locals.user=res.locals.user.user;
         

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Faculty from "../../models/faculty";
 import User from "../../models/user";
 export const addFacultyDetails=async(req:Request, res:Response):Promise<Response>=>{
-  const {phone,designation,department} = req.body
+  const {qualification,designation,department} = req.body
   
   try {
       // const err = validationResult(req)
@@ -13,7 +13,7 @@ export const addFacultyDetails=async(req:Request, res:Response):Promise<Response
       if(faculty){
           return res.status(401).json({success:false,errorType:"msg",error:"faculty deatils already exists"})
       }
-      faculty=await Faculty.create({phone,designation,department,email:res.locals.user.email,userId:res.locals.user.id})
+      faculty=await Faculty.create({qualification,designation,department,userId:res.locals.user.id})
       console.log(faculty);
       
       return res.status(200).json({success:true,faculty})

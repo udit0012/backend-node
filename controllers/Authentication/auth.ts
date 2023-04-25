@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import User from '../../models/user'
 import Faculty from "../../models/faculty";
-import { validationResult } from "express-validator";
+// import { validationResult } from "express-validator";
 
 
 export const userRegister=async(req:Request, res:Response):Promise<Response>=>{
@@ -11,10 +11,10 @@ export const userRegister=async(req:Request, res:Response):Promise<Response>=>{
     // const cpassword:string = req.body.cpassword
 
     try {
-        const err = validationResult(req)
-        if(!err.isEmpty()){
-            return res.status(400).json({success:false,errorType:"array",error:err.array()})
-        }
+        // const err = validationResult(req)
+        // if(!err.isEmpty()){
+        //     return res.status(400).json({success:false,errorType:"array",error:err.array()})
+        // }
         let user = await User.findOne({
             where:{email:req.body.email}
         });
@@ -52,10 +52,10 @@ export const userLogin=async(req:Request, res:Response):Promise<Response>=>{
     const password:string = req.body.password
 
     try {
-        const err = validationResult(req)
-        if(!err.isEmpty()){
-            return res.status(400).json({success:false,errors:err.array()})
-        }
+        // const err = validationResult(req)
+        // if(!err.isEmpty()){
+        //     return res.status(400).json({success:false,errors:err.array()})
+        // }
         const user = await User.findOne({
             where:{
                 email:req.body.email

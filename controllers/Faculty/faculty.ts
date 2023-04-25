@@ -1,7 +1,29 @@
 import { Request, Response } from "express";
 import Faculty from "../../models/faculty";
 import User from "../../models/user";
-
+export const addFacultyDetails=async(req:Request, res:Response):Promise<Response>=>{
+  const {phone,designation,department} = req.body
+  
+  try {
+      // const err = validationResult(req)
+      // if(!err.isEmpty()){
+      //     return res.status(400).json({success:false,errorType:"array",error:err.array()})
+      // }
+      let faculty= await Faculty.findOne({where:{email:res.locals.user.email}})
+      if(faculty){
+          return res.status(401).json({success:false,errorType:"msg",error:"faculty deatils already exists"})
+      }
+      faculty=await Faculty.create({phone,designation,department,email:res.locals.user.email,userId:res.locals.user.id})
+      console.log(faculty);
+      
+      return res.status(200).json({success:true,faculty})
+  } catch (error) {
+      console.log(error);
+      
+      return res.status(500).json({success:false,errorType:"msg",error:"Internal server error"})
+  }
+  
+}
 export const getFaculty = async (req: Request, res: Response) => {
   try {
     const facultyId = req.params.facultyId;

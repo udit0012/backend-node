@@ -71,13 +71,8 @@ export const userLogin=async(req:Request, res:Response):Promise<Response>=>{
         if(!passCheck){
             return res.status(401).json({success:false,error:"Invalid credentials"});
         }
-        const faculty = await Faculty.findOne({
-            where:{
-                userId:user.dataValues.id
-            }
-        })
         const data = {
-            user:{id:user.dataValues.id,email,faculty}
+            user:{id:user.id,role:user.role,email}
         }
         const token = jwt.sign(data,"supersecretkey")
         return res.json({success:true,token})

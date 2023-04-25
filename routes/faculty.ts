@@ -1,8 +1,10 @@
 import express from "express";
-import { getFaculty } from "../controllers/Faculty/faculty";
+import { addFacultyDetails, getFaculty } from "../controllers/Faculty/faculty";
+import authentication from "../middleware/authentication";
 
 const router = express.Router();
 
-router.get("/getFaculty/:facultyId", getFaculty);
+router.post("/addFaculty",authentication,addFacultyDetails)
+router.get("/getFaculty/:facultyId",authentication, getFaculty);
 
 export default router

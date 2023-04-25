@@ -40,8 +40,8 @@ FacultyLeave.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
       //  0 -> pending
-      //  1 -> advisor approved
-      //  2 -> warden approved
+      //  1 -> hod approved
+      //  2 -> dean approved
       // -1 -> rejected
     },
     toCount: {

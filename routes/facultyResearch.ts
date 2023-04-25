@@ -1,10 +1,10 @@
 import express from 'express';
-import { addResearch, getFacultyResearch, getAllResearch,searchResearch } from '../controllers/FacultyResearch/facultyResearch';
+import { addResearch, getFacultyResearch, getAllResearch, getResearch } from '../controllers/FacultyResearch/facultyResearch';
 
 const router = express.Router();
 router.post('/addResearch', addResearch)
 router.get('/getFacultyResearch/:facultyId', getFacultyResearch)
-// router.get('/getAllResearch', getAllResearch)
-// router.post('/searchResearch', searchResearch)
+router.get('/getAllResearch', getAllResearch)
+router.get('/getResearch', getResearch)
 
 export default router

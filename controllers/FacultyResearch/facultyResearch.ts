@@ -39,5 +39,41 @@ export const getFacultyResearch = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllResearch = async (req: Request, res: Response) => {};
-export const searchResearch = async (req: Request, res: Response) => {};
+export const getAllResearch = async (req: Request, res: Response) => {
+  try {
+    const researches = await Research.findAll();
+    return res.status(200).json({
+      msg: "success",
+      data: researches,
+      error: null,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "failed",
+      data: null,
+      error: e,
+    });
+  }
+};
+
+export const getResearch = async (req: Request, res: Response) => {
+  try {
+    const researchId = req.body.researchId;
+    const research = await Research.findOne({
+      where: {
+        id: researchId
+      }
+    })
+    return res.status(200).json({
+      msg: "success",
+      data: research,
+      error: null,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "failed",
+      data: null,
+      error: e,
+    });
+  }
+}

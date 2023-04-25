@@ -4,24 +4,32 @@ import User from "../../models/user";
 // import { hashSync, genSaltSync, compareSync } from "bcrypt";
 
 export const addStudent = async (req: Request, res: Response) => {
-  let student = await Student.findOne({
-    where: {
-      email: res.locals.user.email,
-    },
-  });
-  if (student) {
+  try {
+    let student = await Student.findOne({
+      where: {
+        email: res.locals.user.email,
+      },
+    });
+    if (student) {
+      return res.status(500).json({
+        msg: "failure",
+        data: null,
+        error: "student already exists",
+      });
+    }
+    student = await Student.create({...req.body, userId: res.locals.user.id});
+    return res.status(200).json({
+      msg: "success",
+      data: student,
+      error: null,
+    });
+  } catch (e) {
     return res.status(500).json({
       msg: "failure",
       data: null,
-      error: "student already exists",
-    });
+      error: e
+    })
   }
-  student = await Student.create({...req.body, userId: res.locals.user.id});
-  return res.status(200).json({
-    msg: "student successfully created",
-    data: student,
-    error: null,
-  });
 };
 
 export const getStudent = async (req: Request, res: Response) => {
@@ -53,17 +61,25 @@ export const getStudent = async (req: Request, res: Response) => {
 };
 
 export const updateStudent = async (req: Request, res: Response) => {
-  let student = req.body;
-  const studentId = student.id;
-  delete student["id"];
-  student = await Student.update(student, {
-    where: { id: studentId },
-  });
-  return res.status(200).json({
-    msg: "succesfully updated",
-    data: student,
-    error: null,
-  });
+  try {
+    let student = req.body;
+    const studentId = student.id;
+    delete student["id"];
+    await Student.update(student, {
+      where: { id: studentId },
+    });
+    return res.status(200).json({
+      msg: "success",
+      data: null,
+      error: null,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "failure",
+      data: null,
+      error: e
+    })
+  }
 };
 
 export const getAdvisees = async (req: Request, res: Response) => {

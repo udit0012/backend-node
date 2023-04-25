@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Inventory from "../../models/inventory";
+import InventoryLog from "../../models/inventoryLog";
 
 export const addItem = async (req: Request, res: Response) => {
     try {
@@ -22,9 +23,10 @@ export const addItem = async (req: Request, res: Response) => {
         let item = await Inventory.create({
             name, brand, quantity, costPerItem, category, price: quantity * costPerItem
         })
+        let log = await InventoryLog.create({ itemId: item.id, change: quantity })
         return res.status(200).json({
             status: "pass",
-            data: item,
+            data: { item, log },
             error: null
         })
     } catch (e) {
@@ -104,6 +106,37 @@ export const deleteItem = async (req: Request, res: Response) => {
             error: e
         })
     }
+}
 
+export const updateItem = async (req: Request, res: Response) => {
+    try {
+        let itemId = req.body.id;
+        let item = await Inventory.findOne({
+            where: {
+                id: itemId
+            }
+        })
+        if (!item) {
+            return res.status(404).json({
+                msg: "failure",
+                data: null,
+                error: "item not found"
+            })
+        }
+        let change = req.body.quantity - item.quantity
+        let log = await InventoryLog.create({ itemId: item.id, change })
+        await Inventory.update(req.body, {where : { id: itemId }})
+        return res.status(200).json({
+            msg: "success",
+            data: log,
+            error: null
+        })
+    } catch (e) {
+        return res.status(500).json({
+            msg: "failure",
+            data: null,
+            error: e
+        })
+    }
 }
 

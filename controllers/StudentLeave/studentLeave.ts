@@ -8,12 +8,9 @@ import { Request, Response } from "express";
 import StudentLeave from "../../models/studentLeave";
 // import authentication from "../../middleware/authentication";
 const applyLeave = async (req: Request, res: Response) => {
-    const studentId = req.body.id
-  const { startDate, endDate, workingDays, reason, placeOfStay } =
-    req.body;
-  // const status = req.body.status
+  const studentId = req.body.id;
+  const { startDate, endDate, workingDays, reason, placeOfStay } = req.body;
   const { advisorApproval, wardenApproval } = req.body;
-  // router.post('/applyLeave', upload.single("file"), authentication, async (req: Request, res: Response)=> {
   let file = req.file;
   let student = await Student.findOne({
     // where: { email: res.locals.user.email }
@@ -40,11 +37,8 @@ const applyLeave = async (req: Request, res: Response) => {
       wardenApproval,
       fileDocument: file,
     });
-    // console.log(leaves)
     return res.status(200).json({ leaves: leave });
   } catch (error) {
-    // console.log(error);
-    // console.log(user)
     return res
       .status(500)
       .json({ success: false, error: "Internal Server Error" });

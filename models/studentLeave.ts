@@ -1,8 +1,16 @@
-import { Model, DataTypes } from "sequelize";
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
 
 import sequelize from "./indexModel";
 
-class StudentLeave extends Model {
+class StudentLeave extends Model<
+  InferAttributes<StudentLeave>,
+  InferCreationAttributes<StudentLeave>
+> {
   declare startDate: Date;
   declare endDate: Date;
   declare workingDays: number;

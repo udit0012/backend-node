@@ -23,6 +23,7 @@ class Inventory extends Model<
   // declare remark: CreationOptional<string>;
   declare category: CreationOptional<string>;
   // declare inventoryId: CreationOptional<number>;
+  declare image: JSON;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -64,6 +65,10 @@ Inventory.init(
     quantity: {
       type: DataTypes.NUMBER,
       allowNull: true,
+    },
+    image: {
+      type: DataTypes.JSON,
+      allowNull: true
     },
     // damaged: {
     //     type: DataTypes.STRING,

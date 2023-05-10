@@ -37,3 +37,5 @@ Complaint.init(
   },
   { sequelize }
 );
+
+export default Complaint

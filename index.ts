@@ -1,15 +1,16 @@
-import express from 'express';
-import { Express } from 'express';
-import cors from 'cors';
+import express from "express";
+import { Express } from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
-import authUserRouter from "./routes/auth.js"
-import "./models/associations"
-import inventoryRoutes from "./routes/inventory.js"
-import studentRouter from "./routes/student"
-import studentLeaveRouter from "./routes/studentLeave"
-import facultyResearchRouter from "./routes/facultyResearch"
-import facultyRouter from "./routes/faculty"
-import dotenv from "dotenv"
+import authUserRouter from "./routes/auth.js";
+import "./models/associations";
+import inventoryRoutes from "./routes/inventory.js";
+import studentRouter from "./routes/student";
+import studentLeaveRouter from "./routes/studentLeave";
+import facultyResearchRouter from "./routes/facultyResearch";
+import facultyRouter from "./routes/faculty";
+import cdbRouter from "./routes/cdb";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -20,13 +21,14 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/user', authUserRouter)
-app.use('/inventory', inventoryRoutes)
-app.use('/student', studentRouter)
-app.use('/studentLeave', studentLeaveRouter)
-app.use('/facultyResearch', facultyResearchRouter)
-app.use('/faculty', facultyRouter)
+app.use("/user", authUserRouter);
+app.use("/inventory", inventoryRoutes);
+app.use("/student", studentRouter);
+app.use("/studentLeave", studentLeaveRouter);
+app.use("/facultyResearch", facultyResearchRouter);
+app.use("/faculty", facultyRouter);
+app.use("/complaint", cdbRouter);
 
 app.listen(PORT, () => {
-    console.log(`server is listening  on ${PORT}`);
+  console.log(`server is listening  on ${PORT}`);
 });

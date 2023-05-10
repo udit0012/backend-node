@@ -60,6 +60,34 @@ export const getStudent = async (req: Request, res: Response) => {
   }
 };
 
+export const getStudentsByBatch = async (req: Request, res: Response) => {
+  const batch = req.params.year;
+  try {
+    let student = await Student.findOne({
+      include: User,
+      where: { batch: batch },
+    });
+    if (!student) {
+      return res.status(404).json({
+        msg: "failure",
+        data: null,
+        error: "student not found",
+      });
+    }
+    return res.status(200).json({
+      msg: "success",
+      data: student,
+      error: null,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      msg: "failure",
+      data: null,
+      error: e,
+    });
+  }
+};
+
 export const updateStudent = async (req: Request, res: Response) => {
   try {
     let student = req.body;

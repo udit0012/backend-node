@@ -1,8 +1,9 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from "sequelize";
 
 import sequelize from "./indexModel";
 
-class FacultyLeave extends Model {
+class FacultyLeave extends Model<InferAttributes<FacultyLeave>, InferCreationAttributes<FacultyLeave>> {
+  declare facultyId: ForeignKey<string>;
   declare startDate: Date;
   declare endDate: Date;
   declare reason: string;
@@ -11,6 +12,8 @@ class FacultyLeave extends Model {
   declare status: number;
   declare toCount: boolean;
   declare fileDocument: JSON;
+  declare workArrangement: string;
+  declare addrDuringLeave: string;
 }
 FacultyLeave.init(
   {
@@ -32,9 +35,11 @@ FacultyLeave.init(
     remarks: {
       type: DataTypes.TEXT,
     },
+    addrDuringLeave: {
+      type: DataTypes.TEXT,
+    },
     fileDocument: {
       type: DataTypes.JSON,
-      allowNull: true,
     },
     status: {
       type: DataTypes.INTEGER,
@@ -47,6 +52,13 @@ FacultyLeave.init(
     toCount: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+    },
+    workArrangement: {
+      type: DataTypes.STRING,
+      references: {
+        model: "Faculties",
+        key: "facultyId",
+      },
     },
   },
   { sequelize }

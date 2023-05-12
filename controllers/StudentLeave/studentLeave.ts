@@ -7,7 +7,7 @@ import { validationResult } from "express-validator";
 import { Request, Response } from "express";
 import StudentLeave from "../../models/studentLeave";
 // import authentication from "../../middleware/authentication";
-const applyLeave = async (req: Request, res: Response) => {
+export const applyLeave = async (req: Request, res: Response) => {
   const studentId = req.body.id;
   const { startDate, endDate, workingDays, reason, placeOfStay } = req.body;
   const { advisorApproval, wardenApproval } = req.body;
@@ -15,6 +15,7 @@ const applyLeave = async (req: Request, res: Response) => {
   let student = await Student.findOne({
     // where: { email: res.locals.user.email }
     where: { id: studentId },
+    include: [{ model: Faculty}, {model: User}],
   });
   if (!student) {
     // return res.status(400).json({ success: false, error: "Login First" })
@@ -26,7 +27,7 @@ const applyLeave = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, errors: err.array() });
     }
     let leave = await StudentLeave.create({
-      id: studentId,
+      studentId,
       startDate,
       endDate,
       workingDays,
@@ -35,7 +36,8 @@ const applyLeave = async (req: Request, res: Response) => {
       // status,
       advisorApproval,
       wardenApproval,
-      fileDocument: file,
+      advisorCode: student.facultyId,
+      // fileDocument: {},
     });
     return res.status(200).json({ leaves: leave });
   } catch (error) {
@@ -46,7 +48,7 @@ const applyLeave = async (req: Request, res: Response) => {
 };
 
 // Get All Leaves Details of One Student using college id for student
-const getStudentLeaves = async (req: Request, res: Response) => {
+export const getStudentLeaves = async (req: Request, res: Response) => {
   let studentId = req.params.studentId;
   let student = await Student.findOne({
     // where: { email: res.locals.user.email },
@@ -71,7 +73,7 @@ const getStudentLeaves = async (req: Request, res: Response) => {
 
 // Get All Leaves Details of One Student using Advisor Code for advisor
 
-const getAdviseesLeaves = async (req: Request, res: Response) => {
+export const getAdviseesLeaves = async (req: Request, res: Response) => {
   let advisorCode = req.params.advisorCode;
   // let faculty = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -99,7 +101,7 @@ const getAdviseesLeaves = async (req: Request, res: Response) => {
 
 // Get All Leaves Details of One Student using college id for student and warden
 
-const getHostelLeaves = async (req: Request, res: Response) => {
+export const getHostelLeaves = async (req: Request, res: Response) => {
   let hostel = req.params.hostel;
   // let warden = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -112,9 +114,10 @@ const getHostelLeaves = async (req: Request, res: Response) => {
   // }
   try {
     const leaves = await StudentLeave.findAll({
-      where: {
-        hostel: hostel,
-      },
+      include: [{
+        model: Student,
+        where: { hostel }
+      }]
     });
     // if(!leaves){
     //     return res.status(401).json({error:"Invalid credentials"});
@@ -130,7 +133,7 @@ const getHostelLeaves = async (req: Request, res: Response) => {
 // router.get(
 //   "/advisorApproval/:id",
 //   authentication,
-const advisorApproval = async (req: Request, res: Response) => {
+export const advisorApproval = async (req: Request, res: Response) => {
   let id = req.params.id;
   // let advisor = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -180,7 +183,7 @@ const advisorApproval = async (req: Request, res: Response) => {
 // router.get(
 //   "/advisorRejection/:id",
 //   authentication,
-const advisorRejection = async (req: Request, res: Response) => {
+export const advisorRejection = async (req: Request, res: Response) => {
   let id = req.params.id;
   // let advisor = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -230,7 +233,7 @@ const advisorRejection = async (req: Request, res: Response) => {
 // router.get(
 //   "/wardenApproval/:id",
 //   authentication,
-const wardenApproval = async (req: Request, res: Response) => {
+export const wardenApproval = async (req: Request, res: Response) => {
   let id = req.params.id;
   // let warden = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -280,7 +283,7 @@ const wardenApproval = async (req: Request, res: Response) => {
 // router.get(
 //   "/wardenRejection/:id",
 //   authentication,
-const wardenRejection = async (req: Request, res: Response) => {
+export const wardenRejection = async (req: Request, res: Response) => {
   let id = req.params.id;
   // let warden = await Faculty.findOne({
   //   where: { email: res.locals.user.email },
@@ -326,14 +329,3 @@ const wardenRejection = async (req: Request, res: Response) => {
   }
 };
 
-// module.exports = router;
-export {
-  applyLeave,
-  getStudentLeaves,
-  getAdviseesLeaves,
-  getHostelLeaves,
-  advisorApproval,
-  wardenApproval,
-  advisorRejection,
-  wardenRejection,
-};

@@ -1,13 +1,19 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 
 import sequelize from "./indexModel";
 
-class Faculty extends Model {
-  declare facultyId: number;
+class Faculty extends Model<InferAttributes<Faculty>, InferCreationAttributes<Faculty>> {
+  declare id: string;
   declare department: string;
   declare designation: string;
   declare qualification: string;
 }
+
+import Student from "./student"
+Faculty.hasMany(Student, {
+  foreignKey: "facultyId"
+})
+
 Faculty.init(
   {
     id: {

@@ -1,5 +1,6 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, ForeignKey } from "sequelize";
 import sequelize from "./indexModel";
+import Faculty from "./faculty"
 
 class Student extends Model {
   declare id: number;
@@ -13,6 +14,7 @@ class Student extends Model {
   declare roomNo: string;
   declare cgpa: number;
   declare batch: number;
+  declare facultyId: ForeignKey<Faculty["id"]>;
 }
 
 Student.init(

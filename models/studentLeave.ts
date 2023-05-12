@@ -3,26 +3,36 @@ import {
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
+  CreationOptional,
+  ForeignKey
 } from "sequelize";
 
 import sequelize from "./indexModel";
+import Student from "./student"
 
 class StudentLeave extends Model<
   InferAttributes<StudentLeave>,
   InferCreationAttributes<StudentLeave>
 > {
+  declare id: CreationOptional<string>;
   declare startDate: Date;
   declare endDate: Date;
   declare workingDays: number;
   declare reason: string;
   declare placeOfStay: string;
-  declare fileDocument: JSON;
+  // declare fileDocument: JSON;
   declare advisorCode: string;
   declare advisorApproval: boolean;
   declare wardenApproval: boolean;
+  declare studentId: ForeignKey<Student["id"]>;
 }
 StudentLeave.init(
   {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
+    },
     startDate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -41,11 +51,11 @@ StudentLeave.init(
     placeOfStay: {
       type: DataTypes.TEXT,
     },
-    fileDocument: {
-      // type: DataTypes.BLOB('long'),
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
+    // fileDocument: {
+    //   // type: DataTypes.BLOB('long'),
+    //   type: DataTypes.JSON,
+    //   allowNull: true,
+    // },
     advisorCode: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -51,3 +51,20 @@ export const getFaculty = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getAllFaculty = async (req: Request, res: Response) => {
+    try {
+        let faculties = await Faculty.findAll()
+        return res.status(200).json({
+            msg: "success",
+            data: faculties,
+            error: null
+        })
+    } catch (e) {
+        return res.status(500).json({
+            msg: "failure",
+            data: null,
+            error: e
+        })
+    }
+}

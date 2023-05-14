@@ -1,41 +1,65 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional, ForeignKey } from "sequelize";
+import Faculty from "./faculty";
 import sequelize from "./indexModel";
 
-class Research extends Model {
-  declare topic: string;
-  declare subTopic: string;
-  declare publishedID: string;
-  declare publishedDate: string;
-  declare publisherName: string;
-  declare researchLink: string;
+class Research extends Model<InferAttributes<Research>, InferCreationAttributes<Research>> {
+  declare id:CreationOptional<string>
+  declare researchType: string;
+  declare journalISBNNo: string;
+  declare authorsName: string;
+  declare researchTitle: string;
+  declare journalName: string;
+  declare publishedYear: number;
+  declare volNo: number;
+  declare pageNo: number;
+  declare researchLink:string;
+  declare facultyId:ForeignKey<Faculty["id"]>
 }
 
 Research.init(
   {
-    topic: {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    researchType:{
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    journalISBNNo:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        unique:true
+    },
+    authorsName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    subTopic: {
+    researchTitle: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    publishedID: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    publishedDate: {
+    journalName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    publisherName: {
-      type: DataTypes.STRING,
+    publishedYear: {
+      type: DataTypes.NUMBER,
       allowNull: false,
     },
-    researchLink: {
-      type: DataTypes.STRING,
+    volNo: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
     },
+    pageNo: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+    },
+    researchLink:{
+        type:DataTypes.STRING,
+    }
   },
   { sequelize }
 );

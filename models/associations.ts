@@ -17,7 +17,7 @@ Student.hasMany(StudentLeave);
 StudentLeave.belongsTo(Student);
 
 Faculty.hasMany(Research);
-Research.belongsTo(Faculty);
+Research.belongsTo(Faculty,{foreignKey:"facultyId",foreignKeyConstraint:true});
 
 Faculty.hasMany(Student);
 Student.belongsTo(Faculty);

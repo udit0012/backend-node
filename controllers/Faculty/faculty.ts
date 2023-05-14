@@ -11,12 +11,12 @@ export const addFacultyDetails=async(req:Request, res:Response):Promise<Response
       // }
       let faculty= await Faculty.findOne({where:{userId:res.locals.user.id}})
       if(faculty){
-          return res.status(401).json({success:false,errorType:"msg",error:"faculty deatils already exists"})
+          return res.status(401).json({msg:"failure",data:"msg",error:"faculty deatils already exists"})
       }
       faculty=await Faculty.create({...req.body, userId:res.locals.user.id})
       console.log(faculty);
 
-      return res.status(200).json({success:true,faculty})
+      return res.status(200).json({msg:"success",data:faculty,error:null})
   } catch (error) {
       console.log(error);
 

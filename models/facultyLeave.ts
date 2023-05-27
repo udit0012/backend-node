@@ -1,8 +1,18 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes, ForeignKey } from "sequelize";
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey,
+  CreationOptional,
+} from "sequelize";
 
 import sequelize from "./indexModel";
 
-class FacultyLeave extends Model<InferAttributes<FacultyLeave>, InferCreationAttributes<FacultyLeave>> {
+class FacultyLeave extends Model<
+  InferAttributes<FacultyLeave>,
+  InferCreationAttributes<FacultyLeave>
+> {
   declare facultyId: ForeignKey<string>;
   declare startDate: Date;
   declare endDate: Date;
@@ -14,6 +24,8 @@ class FacultyLeave extends Model<InferAttributes<FacultyLeave>, InferCreationAtt
   declare fileDocument: JSON;
   declare workArrangement: string;
   declare addrDuringLeave: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 FacultyLeave.init(
   {
@@ -60,6 +72,8 @@ FacultyLeave.init(
         key: "facultyId",
       },
     },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   { sequelize }
 );

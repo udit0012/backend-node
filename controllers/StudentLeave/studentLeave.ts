@@ -16,7 +16,7 @@ export const applyLeave = async (req: Request, res: Response) => {
   let student = await Student.findOne({
     // where: { email: res.locals.user.email }
     where: { id: studentId },
-    include: [{ model: Faculty}, {model: User}],
+    // include: [{ model: Faculty}, {model: User}],
   });
   if (!student) {
     // return res.status(400).json({ success: false, error: "Login First" })

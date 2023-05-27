@@ -23,7 +23,7 @@ class Inventory extends Model<
   // declare remark: CreationOptional<string>;
   declare category: CreationOptional<string>;
   // declare inventoryId: CreationOptional<number>;
-  // declare image: JSON;
+  declare image: Express.Multer.File | undefined;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -66,10 +66,9 @@ Inventory.init(
       type: DataTypes.NUMBER,
       allowNull: true,
     },
-    // image: {
-    //   type: DataTypes.JSON,
-    //   allowNull: true
-    // },
+    image: {
+      type: DataTypes.JSON,
+    },
     // damaged: {
     //     type: DataTypes.STRING,
     //     allowNull: true,

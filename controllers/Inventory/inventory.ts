@@ -5,7 +5,7 @@ import InventoryLog from "../../models/inventoryLog";
 export const addItem = async (req: Request, res: Response) => {
   try {
     const { name, brand, quantity, costPerItem, category } = req.body;
-    // let file = req.file;
+    let file = req.file;
     if (!name || !brand || !quantity || !costPerItem || !category) { // || !image
       return res.status(200).json({
         status: "fail",
@@ -28,7 +28,7 @@ export const addItem = async (req: Request, res: Response) => {
       costPerItem,
       category,
       price: quantity * costPerItem,
-      // image: file,
+      image: file,
     });
     let log = await InventoryLog.create({ itemId: item.id, change: quantity });
     return res.status(200).json({

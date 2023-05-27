@@ -7,7 +7,7 @@ export const addStudent = async (req: Request, res: Response) => {
   try {
     let student = await Student.findOne({
       where: {
-        email: res.locals.user.email,
+        id: req.body.id,
       },
     });
     if (student) {

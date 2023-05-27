@@ -11,13 +11,13 @@ User.hasOne(Student);
 Student.belongsTo(User);
 
 User.hasOne(Faculty);
-Faculty.belongsTo(User,{foreignKey:"userId",foreignKeyConstraint:true});
+Faculty.belongsTo(User);
 
 Student.hasMany(StudentLeave);
 StudentLeave.belongsTo(Student);
 
 Faculty.hasMany(Research);
-Research.belongsTo(Faculty,{foreignKey:"facultyId",foreignKeyConstraint:true});
+Research.belongsTo(Faculty);
 
 Faculty.hasMany(Student);
 Student.belongsTo(Faculty);

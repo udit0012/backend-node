@@ -9,6 +9,7 @@ import {
 
 import sequelize from "./indexModel";
 import Student from "./student"
+// import Mul
 
 class StudentLeave extends Model<
   InferAttributes<StudentLeave>,
@@ -20,7 +21,7 @@ class StudentLeave extends Model<
   declare workingDays: number;
   declare reason: string;
   declare placeOfStay: string;
-  // declare fileDocument: JSON;
+  declare fileDocument: Express.Multer.File | undefined;
   declare advisorCode: string;
   declare advisorApproval: boolean;
   declare wardenApproval: boolean;
@@ -51,11 +52,9 @@ StudentLeave.init(
     placeOfStay: {
       type: DataTypes.TEXT,
     },
-    // fileDocument: {
-    //   // type: DataTypes.BLOB('long'),
-    //   type: DataTypes.JSON,
-    //   allowNull: true,
-    // },
+    fileDocument: {
+      type: DataTypes.JSON,
+    },
     advisorCode: {
       type: DataTypes.STRING,
       allowNull: false,

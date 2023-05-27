@@ -21,7 +21,7 @@ class FacultyLeave extends Model<
   declare remarks: string;
   declare status: number;
   declare toCount: boolean;
-  declare fileDocument: JSON;
+  declare fileDocument: Express.Multer.File | undefined;
   declare workArrangement: string;
   declare addrDuringLeave: string;
   declare createdAt: CreationOptional<Date>;

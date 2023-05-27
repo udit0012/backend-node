@@ -12,6 +12,7 @@ export const applyLeave = async (req: Request, res: Response) => {
   const { startDate, endDate, workingDays, reason, placeOfStay } = req.body;
   const { advisorApproval, wardenApproval } = req.body;
   let file = req.file;
+
   let student = await Student.findOne({
     // where: { email: res.locals.user.email }
     where: { id: studentId },
@@ -37,7 +38,7 @@ export const applyLeave = async (req: Request, res: Response) => {
       advisorApproval,
       wardenApproval,
       advisorCode: student.facultyId,
-      // fileDocument: {},
+      fileDocument: file,
     });
     return res.status(200).json({ leaves: leave });
   } catch (error) {
